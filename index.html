@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCSE · Test de preparación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF4E9;
+  --paper-2:#F2E8D8;
+  --ink:#241C15;
+  --ink-soft:#5B5147;
+  --terracotta:#C1502E;
+  --terracotta-deep:#9A3A1F;
+  --gold:#D9A53C;
+  --navy:#1F3A4D;
+  --navy-deep:#142733;
+  --green:#3C6E47;
+  --red:#B23A2E;
+  --line:rgba(36,28,21,0.14);
+  --shadow:0 10px 30px -12px rgba(36,28,21,0.25);
+  --radius:18px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(193,80,46,0.08), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(31,58,77,0.07), transparent 40%);
+  color:var(--ink);
+  font-family:'Inter', system-ui, sans-serif;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding:40px 28px 80px;
+}
+/* ---------- Header ---------- */
+.masthead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  padding-bottom:22px;
+  border-bottom:3px solid var(--ink);
+  margin-bottom:36px;
+  flex-wrap:wrap;
+}
+.masthead .eyebrow{
+  font-size:13px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--terracotta-deep);
+  font-weight:700;
+  margin:0 0 6px;
+}
+.masthead h1{
+  font-family:'Fraunces', serif;
+  font-weight:700;
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.02;
+  margin:0;
+  letter-spacing:-0.01em;
+}
+.masthead h1 em{
+  font-style:italic;
+  font-weight:500;
+  color:var(--terracotta);
+}
+.masthead .sub{
+  font-size:15.5px;
+  color:var(--ink-soft);
+  max-width:380px;
+  text-align:right;
+  line-height:1.45;
+}
+@media (max-width:640px){ .masthead .sub{text-align:left;} }
+
+/* ---------- Nav pills (home) ---------- */
+.view{display:none;}
+.view.active{display:block; animation:fadeIn .35s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+.grid-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+  gap:18px;
+  margin-bottom:40px;
+}
+.card{
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:26px 24px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  text-align:left;
+}
+.card:hover{transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--terracotta);}
+.card .num{
+  font-family:'Fraunces', serif;
+  font-weight:900;
+  font-size:46px;
+  color:var(--terracotta);
+  opacity:.85;
+  line-height:1;
+  margin-bottom:10px;
+  display:block;
+}
+.card h3{
+  font-family:'Fraunces', serif;
+  font-size:21px;
+  font-weight:600;
+  margin:0 0 8px;
+  line-height:1.2;
+}
+.card p{
+  margin:0;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+.card .count{
+  position:absolute;
+  top:18px; right:20px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  color:var(--navy);
+  background:rgba(31,58,77,0.08);
+  padding:4px 10px;
+  border-radius:20px;
+}
+.card.exam{
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+  color:#F3EFE6;
+  border:1px solid var(--navy-deep);
+}
+.card.exam .num{color:var(--gold);}
+.card.exam p{color:rgba(243,239,230,0.75);}
+.card.exam .count{background:rgba(255,255,255,0.12); color:#F3EFE6;}
+.card.exam:hover{border-color:var(--gold); box-shadow:0 10px 30px -10px rgba(20,39,51,0.6);}
+
+.section-label{
+  font-size:13px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--ink-soft);
+  margin:0 0 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+
+/* ---------- Quiz header ---------- */
+.quiz-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:none;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:9px 16px 9px 12px;
+  font-family:'Inter';
+  font-weight:600;
+  font-size:14px;
+  color:var(--ink);
+  cursor:pointer;
+  transition:background .2s, border-color .2s;
+}
+.back-btn:hover{background:var(--paper-2); border-color:var(--ink);}
+.quiz-title{
+  font-family:'Fraunces', serif;
+  font-weight:700;
+  font-size:clamp(22px,3vw,30px);
+  margin:0;
+}
+.progress-pill{
+  font-weight:700;
+  font-size:14px;
+  background:var(--ink);
+  color:var(--paper);
+  padding:8px 16px;
+  border-radius:30px;
+  white-space:nowrap;
+}
+.timer-pill{
+  font-weight:800;
+  font-size:15px;
+  background:var(--terracotta);
+  color:#fff;
+  padding:8px 18px;
+  border-radius:30px;
+  white-space:nowrap;
+  font-family:'Inter';
+  letter-spacing:0.02em;
+}
+.timer-pill.low{background:var(--red); animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+.progress-track{
+  height:8px;
+  border-radius:8px;
+  background:var(--line);
+  overflow:hidden;
+  margin-bottom:34px;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--terracotta), var(--gold));
+  border-radius:8px;
+  transition:width .35s ease;
+  width:0%;
+}
+
+/* ---------- Question card ---------- */
+.qcard{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:clamp(28px,5vw,56px);
+  box-shadow:var(--shadow);
+  min-height:420px;
+  display:flex;
+  flex-direction:column;
+}
+.qcard .qmeta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.qmeta .tag{
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--terracotta-deep);
+  background:rgba(193,80,46,0.1);
+  padding:5px 12px;
+  border-radius:20px;
+}
+.qmeta .code{
+  font-size:13px;
+  color:var(--ink-soft);
+  font-weight:600;
+}
+.qtext{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:clamp(26px,3.6vw,40px);
+  line-height:1.22;
+  margin:6px 0 36px;
+  letter-spacing:-0.01em;
+}
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  flex:1;
+}
+.opt{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  text-align:left;
+  border:2px solid var(--line);
+  border-radius:16px;
+  padding:18px 22px;
+  background:var(--paper);
+  cursor:pointer;
+  font-family:'Inter';
+  font-size:clamp(17px,2vw,20px);
+  font-weight:500;
+  color:var(--ink);
+  transition:border-color .15s, background .15s, transform .1s;
+  line-height:1.35;
+}
+.opt:hover{border-color:var(--navy); background:#fff;}
+.opt:active{transform:scale(0.995);}
+.opt .letter{
+  flex:0 0 auto;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid var(--ink-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:15px;
+  color:var(--ink-soft);
+  background:#fff;
+}
+.opt.selected{border-color:var(--navy); background:rgba(31,58,77,0.06);}
+.opt.selected .letter{background:var(--navy); color:#fff; border-color:var(--navy);}
+.opt.correct{border-color:var(--green); background:rgba(60,110,71,0.08);}
+.opt.correct .letter{background:var(--green); color:#fff; border-color:var(--green);}
+.opt.wrong{border-color:var(--red); background:rgba(178,58,46,0.08);}
+.opt.wrong .letter{background:var(--red); color:#fff; border-color:var(--red);}
+.opt.disabled{cursor:default;}
+.opt.disabled:hover{border-color:inherit; background:inherit;}
+
+.qnav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:30px;
+  gap:14px;
+}
+.btn{
+  font-family:'Inter';
+  font-weight:700;
+  font-size:15px;
+  border:none;
+  border-radius:30px;
+  padding:14px 26px;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, opacity .2s;
+}
+.btn:active{transform:scale(0.97);}
+.btn:disabled{opacity:.35; cursor:not-allowed;}
+.btn-primary{background:var(--ink); color:var(--paper);}
+.btn-primary:hover:not(:disabled){box-shadow:0 8px 20px -6px rgba(36,28,21,0.4);}
+.btn-ghost{background:none; color:var(--ink-soft); border:1px solid var(--line);}
+.btn-ghost:hover:not(:disabled){border-color:var(--ink); color:var(--ink);}
+
+/* dot index */
+.dots{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:26px;
+  justify-content:center;
+}
+.dot{
+  width:11px; height:11px; border-radius:50%;
+  background:var(--line);
+  cursor:pointer;
+  border:none;
+  padding:0;
+  transition:transform .15s;
+}
+.dot:hover{transform:scale(1.3);}
+.dot.current{background:var(--navy); transform:scale(1.3);}
+.dot.answered-correct{background:var(--green);}
+.dot.answered-wrong{background:var(--red);}
+
+/* ---------- Results ---------- */
+.results{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:clamp(32px,6vw,64px);
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.results .score-ring{
+  width:180px; height:180px;
+  margin:0 auto 22px;
+  position:relative;
+}
+.results .score-num{
+  font-family:'Fraunces', serif;
+  font-weight:800;
+  font-size:48px;
+}
+.results h2{
+  font-family:'Fraunces', serif;
+  font-size:30px;
+  margin:0 0 6px;
+}
+.results .verdict{
+  font-size:16px;
+  color:var(--ink-soft);
+  margin-bottom:30px;
+}
+.stat-row{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:34px;
+}
+.stat-box{
+  background:var(--paper-2);
+  border-radius:14px;
+  padding:16px 26px;
+  min-width:110px;
+}
+.stat-box .n{font-family:'Fraunces',serif; font-weight:700; font-size:28px;}
+.stat-box .l{font-size:12.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; font-weight:600;}
+.review-list{
+  text-align:left;
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease;
+}
+.review-list.open{max-height:4000px;}
+.review-item{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 20px;
+  font-size:14.5px;
+}
+.review-item.wrong{border-color:rgba(178,58,46,0.4); background:rgba(178,58,46,0.04);}
+.review-item .rq{font-weight:700; margin-bottom:6px;}
+.review-item .ra{color:var(--ink-soft);}
+.review-item .ra b{color:var(--green);}
+.review-item .ra .badwrong{color:var(--red); text-decoration:line-through;}
+
+.action-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:8px;}
+
+footer.note{
+  text-align:center;
+  font-size:13px;
+  color:var(--ink-soft);
+  margin-top:50px;
+  opacity:.7;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Instituto Cervantes · Manual CCSE 2026</p>
+      <h1>Prueba CCSE <em>en blanco y negro</em></h1>
+    </div>
+    <p class="sub">Conocimientos Constitucionales y Socioculturales de España. Practica por temas o lánzate al examen cronometrado de 45&nbsp;minutos.</p>
+  </div>
+
+  <!-- ============ HOME VIEW ============ -->
+  <div id="view-home" class="view active">
+    <p class="section-label">Examen oficial</p>
+    <div class="grid-cards" style="margin-bottom:46px;">
+      <div class="card exam" onclick="startExam()">
+        <span class="count">25 preguntas · 45 min</span>
+        <span class="num">★</span>
+        <h3>Examen aleatorio</h3>
+        <p>10 de Tarea&nbsp;1 · 3 de Tarea&nbsp;2 · 2 de Tarea&nbsp;3 · 3 de Tarea&nbsp;4 · 7 de Tarea&nbsp;5. Preguntas distintas cada vez.</p>
+      </div>
+    </div>
+
+    <p class="section-label">Practicar por apartados</p>
+    <div class="grid-cards" id="topic-cards"></div>
+  </div>
+
+  <!-- ============ QUIZ VIEW ============ -->
+  <div id="view-quiz" class="view">
+    <div class="quiz-top">
+      <button class="back-btn" onclick="goHome()">&#8592; Volver</button>
+      <h2 class="quiz-title" id="quiz-title">—</h2>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span class="timer-pill" id="timer-pill" style="display:none;">45:00</span>
+        <span class="progress-pill" id="progress-pill">1 / 1</span>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="tag" id="q-tag">Tarea 1</span>
+        <span class="code" id="q-code">#1001</span>
+      </div>
+      <h3 class="qtext" id="q-text">Cargando…</h3>
+      <div class="options" id="q-options"></div>
+      <div class="qnav">
+        <button class="btn btn-ghost" id="btn-prev" onclick="prevQ()">&#8592; Anterior</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Siguiente &#8594;</button>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <!-- ============ RESULTS VIEW ============ -->
+  <div id="view-results" class="view">
+    <div class="quiz-top">
+      <button class="back-btn" onclick="goHome()">&#8592; Volver</button>
+      <h2 class="quiz-title">Resultado</h2>
+      <span style="width:90px;"></span>
+    </div>
+    <div class="results">
+      <h2 id="res-title">¡Test completado!</h2>
+      <p class="verdict" id="res-verdict"></p>
+      <div class="stat-row">
+        <div class="stat-box"><div class="n" id="res-correct" style="color:var(--green);">0</div><div class="l">Correctas</div></div>
+        <div class="stat-box"><div class="n" id="res-wrong" style="color:var(--red);">0</div><div class="l">Falladas</div></div>
+        <div class="stat-box"><div class="n" id="res-pct">0%</div><div class="l">Acierto</div></div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" id="res-retry-btn" onclick="retrySame()">Repetir</button>
+        <button class="btn btn-ghost" onclick="toggleReview()">Ver corrección</button>
+        <button class="btn btn-ghost" onclick="goHome()">Ir al inicio</button>
+      </div>
+      <div class="review-list" id="review-list"></div>
+    </div>
+  </div>
+
+  <footer class="note">Contenido extraído del Manual de preparación de la prueba CCSE 2026 (Instituto Cervantes). Material de estudio no oficial.</footer>
+</div>
+
+<script>
+/* ================== DATA ================== */
+const DATA = {"t1": {"title": "Gobierno, legislación y participación ciudadana", "questions": [{"id": 1001, "q": "España es…", "options": ["una monarquía parlamentaria.", "una república federal.", "una monarquía federal."], "correct": 0}, {"id": 1002, "q": "La ley fundamental de España se llama…", "options": ["Constitución.", "Ley básica.", "Ordenamiento esencial."], "correct": 0}, {"id": 1003, "q": "Según la Constitución española, la soberanía nacional reside en…", "options": ["el pueblo español.", "el Gobierno del Estado.", "el Congreso de los Diputados."], "correct": 0}, {"id": 1004, "q": "El Instituto de las Mujeres es…", "options": ["una institución europea.", "un organismo español.", "una ONG."], "correct": 1}, {"id": 1005, "q": "¿Cuándo puedo hacer los trámites en la sede electrónica?", "options": ["En cualquier horario.", "Únicamente por la mañana.", "De lunes a viernes."], "correct": 0}, {"id": 1006, "q": "El castellano o español es lengua oficial…", "options": ["en toda España.", "solo donde no hay otras lenguas.", "en toda la península ibérica."], "correct": 0}, {"id": 1007, "q": "¿Cuál de estas fuerzas de seguridad es de ámbito autonómico?", "options": ["Policía local.", "Guardia Civil.", "Policía Foral de Navarra."], "correct": 2}, {"id": 1008, "q": "¿Qué fuerza de seguridad está en toda España?", "options": ["La Policía Foral de Navarra.", "El Cuerpo Nacional de Policía.", "Los Mossos d'Esquadra."], "correct": 1}, {"id": 1009, "q": "En la Constitución se establece la separación de poderes: el poder ejecutivo, el legislativo y el…", "options": ["judicial.", "informativo.", "político."], "correct": 0}, {"id": 1010, "q": "La bandera de España debe utilizarse…", "options": ["solo los días de fiesta oficial.", "en todos los edificios públicos.", "solo en actos del Gobierno español."], "correct": 1}, {"id": 1011, "q": "¿Quién es el jefe del Estado en España?", "options": ["El presidente del Gobierno.", "El rey.", "El ministro de Economía."], "correct": 1}, {"id": 1012, "q": "La gestión de la sanidad es competencia de…", "options": ["el Estado.", "las comunidades autónomas.", "los ayuntamientos."], "correct": 1}, {"id": 1013, "q": "¿Quién fue el primer presidente del Gobierno de España en democracia?", "options": ["Mariano Rajoy.", "Adolfo Suárez.", "José Luis Rodríguez Zapatero."], "correct": 1}, {"id": 1014, "q": "¿Cuál de estos organismos se encarga de interpretar la Constitución?", "options": ["El Poder Constitucional.", "El Tribunal Constitucional.", "El Consejo General del Poder Judicial."], "correct": 1}, {"id": 1015, "q": "¿Quién modera el funcionamiento de las instituciones españolas?", "options": ["El presidente del Gobierno.", "El rey.", "El director de la Real Academia Española."], "correct": 1}, {"id": 1016, "q": "¿Cómo se llama la cámara de representación territorial en España?", "options": ["Senado.", "Diputación permanente.", "Congreso de los Diputados."], "correct": 0}, {"id": 1017, "q": "¿Qué se necesita para hacer trámites por internet con la Administración?", "options": ["Un pasaporte válido.", "Una firma electrónica.", "Una firma en papel."], "correct": 1}, {"id": 1018, "q": "¿Cómo se aprobó la Constitución?", "options": ["Por imposición legal.", "Por referéndum.", "Por el Tribunal Constitucional."], "correct": 1}, {"id": 1019, "q": "¿Cómo se llama la ley más importante de cada comunidad autónoma?", "options": ["Estatuto de Autonomía.", "Normativa autonómica.", "Ley de la comunidad."], "correct": 0}, {"id": 1020, "q": "Las instalaciones culturales y deportivas públicas son competencia del…", "options": ["Ayuntamiento.", "Ministerio de Educación, Formación Profesional y Deportes.", "Ministerio de Igualdad."], "correct": 0}, {"id": 1021, "q": "¿Quién dirige la administración militar de España?", "options": ["Los ayuntamientos.", "El Gobierno.", "Las Cortes Generales."], "correct": 1}, {"id": 1022, "q": "¿Qué hay en las Islas Baleares, en vez de diputaciones?", "options": ["Cabildos.", "Consejos insulares.", "Centros de diputados."], "correct": 1}, {"id": 1023, "q": "¿Qué ciudad tiene más habitantes?", "options": ["Sevilla.", "Barcelona.", "Zaragoza."], "correct": 1}, {"id": 1024, "q": "Las Cortes Generales representan…", "options": ["al pueblo español.", "a los partidos políticos.", "a los ministros."], "correct": 0}, {"id": 1025, "q": "El Congreso de los Diputados y el Senado constituyen el poder…", "options": ["ejecutivo.", "legislativo.", "judicial."], "correct": 1}, {"id": 1026, "q": "¿Cómo pueden los ciudadanos proponer nuevas leyes al Congreso?", "options": ["Reuniendo 500 000 firmas.", "Solicitándolo al rey.", "Creando una asociación."], "correct": 0}, {"id": 1027, "q": "¿Cuántas comunidades autónomas hay en España?", "options": ["8.", "17.", "25."], "correct": 1}, {"id": 1028, "q": "Los colores de la bandera española son…", "options": ["blanco y rojo.", "rojo y amarillo.", "amarillo y blanco."], "correct": 1}, {"id": 1029, "q": "¿Dónde está la sede del Gobierno de España?", "options": ["En Madrid.", "En Barcelona.", "En Sevilla."], "correct": 0}, {"id": 1030, "q": "La bandera azul con 12 estrellas amarillas en círculo es la bandera de…", "options": ["la Unión Europea.", "el Parlamento Europeo.", "la Comisión de Europa."], "correct": 0}, {"id": 1031, "q": "En las elecciones municipales se vota a…", "options": ["alcaldes y concejales.", "ministros y ministras.", "diputados y senadores."], "correct": 0}, {"id": 1032, "q": "¿Qué lengua es oficial en el País Vasco?", "options": ["El bable.", "El aragonés.", "El euskera."], "correct": 2}, {"id": 1033, "q": "Todos los españoles tienen el deber de conocer la lengua…", "options": ["autonómica del Estado.", "oficial del Estado.", "local del Estado."], "correct": 1}, {"id": 1034, "q": "El aranés es una lengua cooficial que se habla en un pequeño territorio de…", "options": ["Cataluña.", "La Rioja.", "Aragón."], "correct": 0}, {"id": 1035, "q": "Las instituciones de una comunidad autónoma son: el consejo de gobierno, el presidente y…", "options": ["el ayuntamiento.", "la asamblea legislativa.", "la delegación de gobierno."], "correct": 1}, {"id": 1036, "q": "¿Cuál de estas opciones es una lengua cooficial en alguna comunidad autónoma?", "options": ["El gallego.", "El aragonés.", "El murciano."], "correct": 0}, {"id": 1037, "q": "¿Qué institución tiene como fin la promoción de la enseñanza de la lengua española y la difusión de la cultura en español?", "options": ["El Instituto Nacional de Administración Pública.", "El Instituto Nacional de Estadística.", "El Instituto Cervantes."], "correct": 2}, {"id": 1038, "q": "¿Cuál de los siguientes organismos trabaja para conseguir la normalización lingüística?", "options": ["El Institut Ramon Llull.", "El Instituto Cervantes.", "La Real Academia Española."], "correct": 0}, {"id": 1039, "q": "¿Dónde vive el presidente del Gobierno?", "options": ["En el Palacio Real.", "En el Palacio de la Zarzuela.", "En el Palacio de la Moncloa."], "correct": 2}, {"id": 1040, "q": "¿Cuál de los siguientes cuerpos forma parte de las Fuerzas Armadas de España?", "options": ["La Policía Foral.", "La Guardia Civil.", "El Ejército del Aire."], "correct": 2}, {"id": 1041, "q": "¿Quiénes forman parte del Gobierno?", "options": ["Los ministros.", "Los concejales.", "Los alcaldes."], "correct": 0}, {"id": 1042, "q": "España es un…", "options": ["estado social y democrático de Derecho.", "estado libre asociado.", "estado confederado."], "correct": 0}, {"id": 1043, "q": "¿Cuál de las siguientes siglas corresponde a un partido político?", "options": ["PP.", "PIB.", "UE."], "correct": 0}, {"id": 1044, "q": "¿Qué título tiene la futura reina, hija del rey?", "options": ["Princesa de Asturias.", "Princesa de Aragón.", "Duquesa de Alba."], "correct": 0}, {"id": 1045, "q": "¿Con qué rey se restaura la democracia en España después del régimen de Franco?", "options": ["Con Carlos III.", "Con Alfonso XIII.", "Con Juan Carlos I."], "correct": 2}, {"id": 1046, "q": "¿En qué año se aprobó la Constitución española?", "options": ["En 1957.", "En 1978.", "En 2001."], "correct": 1}, {"id": 1047, "q": "¿Cuántas comunidades autónomas tienen su propia bandera?", "options": ["Ninguna.", "Todas.", "Las que tienen una lengua cooficial."], "correct": 2}, {"id": 1048, "q": "¿Qué organismo oficial atiende las quejas de los ciudadanos por el mal funcionamiento de las administraciones?", "options": ["La Oficina de Atención al Consumidor.", "La Policía Nacional.", "El Defensor del Pueblo."], "correct": 2}, {"id": 1049, "q": "¿Cuántas firmas, como mínimo, deben recoger los ciudadanos para poder presentar una proposición de ley?", "options": ["250 000.", "100 000.", "500 000."], "correct": 2}, {"id": 1050, "q": "¿A cuál de las siguientes organizaciones internacionales pertenece España?", "options": ["Comunidad de Estados Independientes (CEI).", "Fondo Monetario Internacional (FMI).", "Unión Económica Euroasiática (UEE)."], "correct": 1}, {"id": 1051, "q": "En la organización de la Administración se distinguen tres niveles: central, autonómica y…", "options": ["estatal.", "regional.", "local."], "correct": 2}, {"id": 1052, "q": "El poder legislativo corresponde...", "options": ["al presidente y los ministros.", "a los jueces y magistrados.", "a los diputados y senadores."], "correct": 2}, {"id": 1053, "q": "¿Dónde vive el rey?", "options": ["En el Palacio de la Moneda.", "En el Palacio de la Zarzuela.", "En el Palacio de la Moncloa."], "correct": 1}, {"id": 1054, "q": "El nombre oficial del parlamento español es…", "options": ["Cortes Generales.", "Congreso de los Diputados.", "Senado."], "correct": 0}, {"id": 1055, "q": "El Instituto de Comercio Exterior de España, el Instituto de las Mujeres y la Dirección General de Tráfico…", "options": ["son organismos autónomos.", "dependen de ministerios.", "son organismos internacionales."], "correct": 1}, {"id": 1056, "q": "¿Quién puede reinar en España?", "options": ["Solo los hombres.", "Solo las mujeres.", "Tanto los hombres como las mujeres."], "correct": 2}, {"id": 1057, "q": "El Tribunal de Cuentas depende de…", "options": ["la Presidencia del Gobierno.", "las Cortes Generales.", "el Ministerio de Hacienda."], "correct": 1}, {"id": 1058, "q": "¿Quién es la tercera autoridad del Estado, después del rey y el presidente del Gobierno?", "options": ["El presidente del Senado.", "El ministro de Economía.", "El presidente del Congreso de los Diputados."], "correct": 2}, {"id": 1059, "q": "¿Qué lengua cooficial se habla en las Islas Baleares?", "options": ["Gallego.", "Catalán.", "Euskera."], "correct": 1}, {"id": 1060, "q": "La Constitución defiende valores tales como la libertad, la igualdad, el pluralismo político y…", "options": ["la justicia.", "la solidaridad.", "la fraternidad."], "correct": 0}, {"id": 1061, "q": "Cuando una ley ya está aprobada, ¿qué necesita para poder aplicarse?", "options": ["Nada.", "Normas que la desarrollen.", "Ser revisada por el Parlamento."], "correct": 1}, {"id": 1062, "q": "¿Cuántos habitantes hay en España?", "options": ["95 millones.", "49 millones.", "67 millones."], "correct": 2}, {"id": 1063, "q": "¿Cuál de estos es un órgano consultivo del Gobierno de España?", "options": ["El Parlamento Europeo.", "El Consejo de Estado.", "El Tribunal Constitucional."], "correct": 1}, {"id": 1064, "q": "¿Quién dirige la política interior y exterior de España?", "options": ["El rey.", "El Gobierno.", "El Congreso de los Diputados."], "correct": 1}, {"id": 1065, "q": "El Defensor del Pueblo depende de…", "options": ["el Consejo de Ministros.", "el Tribunal de Cuentas.", "las Cortes Generales."], "correct": 2}, {"id": 1066, "q": "El Instituto Etxepare tiene como misión la difusión del…", "options": ["euskera y la cultura vasca.", "bable y la cultura cántabra.", "gallego y la cultura galaica."], "correct": 0}, {"id": 1067, "q": "¿Cuál de estas ciudades se encuentra entre las 10 más pobladas de España?", "options": ["Cádiz.", "Málaga.", "Albacete."], "correct": 1}, {"id": 1068, "q": "¿Quién puede realizar trámites en línea ante la Administración Pública?", "options": ["Jueces y magistrados.", "Cualquier ciudadano.", "Abogados colegiados."], "correct": 1}, {"id": 1069, "q": "¿Cómo se llama el rey de España?", "options": ["Juan Carlos I.", "Felipe VI.", "Alfonso XIII."], "correct": 1}, {"id": 1070, "q": "¿Cómo se llama el órgano de gobierno de los jueces y magistrados?", "options": ["Tribunal Supremo.", "Consejo General del Poder Judicial.", "Consejo de Estado."], "correct": 1}, {"id": 1071, "q": "¿Quién aprueba los presupuestos generales del Estado?", "options": ["Las Cortes Generales.", "El Tribunal de Cuentas.", "El Gobierno de España."], "correct": 0}, {"id": 1072, "q": "La Constitución española es…", "options": ["la ley fundamental.", "parte de otra ley.", "una ley secundaria."], "correct": 0}, {"id": 1073, "q": "Las Cortes Generales están compuestas por el Senado y…", "options": ["el Congreso de los Diputados.", "el Tribunal Supremo.", "el Consejo de Estado."], "correct": 0}, {"id": 1074, "q": "¿Quién elabora las leyes?", "options": ["El poder ejecutivo.", "El poder legislativo.", "El poder judicial."], "correct": 1}, {"id": 1075, "q": "La defensa de la integridad territorial de España corresponde a…", "options": ["la Policía Nacional y la Guardia Civil.", "las Fuerzas Armadas.", "la Policía Nacional y las policías autonómicas."], "correct": 1}, {"id": 1076, "q": "El Ejército español participa desde 1989 en misiones de paz de la…", "options": ["Organización de Estados Iberoamericanos (OEI).", "Unión Europea Occidental (UEO).", "Organización de las Naciones Unidas (ONU)."], "correct": 2}, {"id": 1077, "q": "¿Quién vigila puertos y aeropuertos, fronteras y costas?", "options": ["La Guardia Civil.", "La Policía local.", "La Policía Nacional."], "correct": 0}, {"id": 1078, "q": "¿Quién hace el control de pasaportes en las fronteras de España?", "options": ["La Guardia Civil.", "La Policía local.", "La Policía Nacional."], "correct": 0}, {"id": 1079, "q": "¿Cuál de los siguientes políticos ha sido presidente del Gobierno en España?", "options": ["Manuel Fraga.", "José María Aznar.", "Yolanda Díaz."], "correct": 1}, {"id": 1080, "q": "¿Cómo se llama la policía autonómica de Cataluña?", "options": ["Guardia Civil.", "Ertzaintza.", "Mossos d'Esquadra."], "correct": 2}, {"id": 1081, "q": "¿Cómo se llama la policía autonómica del País Vasco?", "options": ["Ertzaintza.", "Guardia Civil.", "Mossos d'Esquadra."], "correct": 0}, {"id": 1082, "q": "¿Desde qué año es rey Felipe VI?", "options": ["Desde 1975.", "Desde 2014.", "Desde 2020."], "correct": 1}, {"id": 1083, "q": "¿Quién regula el tráfico en los pueblos y ciudades?", "options": ["La Guardia Civil.", "Protección Civil.", "La Policía Local."], "correct": 2}, {"id": 1084, "q": "¿Quién puede presentar una queja al Defensor del Pueblo?", "options": ["Solo los ciudadanos legalmente residentes.", "Solo los españoles mayores de 18 años.", "Todos los ciudadanos, españoles o extranjeros."], "correct": 2}, {"id": 1085, "q": "En España el voto en las elecciones es…", "options": ["un derecho.", "un deber.", "una obligación."], "correct": 0}, {"id": 1086, "q": "¿Quién vigila el tráfico en las carreteras?", "options": ["La Guardia Civil.", "La Policía Nacional.", "El Ejército de Tierra."], "correct": 0}, {"id": 1087, "q": "¿Qué organismo se encarga de recaudar los impuestos?", "options": ["El Tribunal de Cuentas.", "La Agencia Tributaria.", "El Consejo Económico y Social."], "correct": 1}, {"id": 1088, "q": "¿Dónde se publican las leyes nacionales?", "options": ["En el boletín del Instituto Nacional de Estadística (INE).", "En el Portal de la Administración Electrónica (PAe).", "En el Boletín Oficial del Estado (BOE)."], "correct": 2}, {"id": 1089, "q": "¿Cómo se llaman los órganos de gobierno que solo existen en Canarias?", "options": ["Cabildos.", "Consejos insulares.", "Diputaciones."], "correct": 0}, {"id": 1090, "q": "¿Cuál de estos trámites administrativos puede realizarse en la sede electrónica?", "options": ["Tramitar el DNI.", "Renovar el pasaporte.", "Pagar los impuestos."], "correct": 2}, {"id": 1091, "q": "¿Cuál es el número de teléfono de información de la Administración General del Estado?", "options": ["010.", "060.", "091."], "correct": 1}, {"id": 1092, "q": "España está organizada en…", "options": ["cantones.", "comunidades autónomas.", "estados federales."], "correct": 1}, {"id": 1093, "q": "¿Cuántos partidos políticos hay en España?", "options": ["Ninguno.", "Uno.", "Muchos."], "correct": 2}, {"id": 1094, "q": "¿Dónde tiene lugar la investidura del presidente del Gobierno?", "options": ["En el Palacio de la Moncloa.", "En el Congreso de los Diputados.", "En el Senado."], "correct": 1}, {"id": 1095, "q": "¿Quién tiene el mando supremo de las Fuerzas Armadas?", "options": ["El rey.", "El presidente del Gobierno.", "El ministro de Defensa."], "correct": 0}, {"id": 1096, "q": "¿Quién es el representante del Estado en una comunidad autónoma?", "options": ["El presidente de la comunidad autónoma.", "El delegado del Gobierno.", "El presidente de la Asamblea autonómica."], "correct": 1}, {"id": 1097, "q": "¿Cuántas provincias hay en España?", "options": ["45.", "50.", "55."], "correct": 0}, {"id": 1098, "q": "La enseñanza de las lenguas cooficiales es competencia…", "options": ["del Estado.", "de la comunidad autónoma.", "de la provincia."], "correct": 1}, {"id": 1099, "q": "El poder ejecutivo corresponde…", "options": ["al Gobierno del Estado.", "al Congreso y al Senado.", "a los jueces y magistrados."], "correct": 0}, {"id": 1100, "q": "¿Cuántas cámaras hay en el Parlamento español?", "options": ["Una.", "Dos.", "Tres."], "correct": 1}, {"id": 1101, "q": "El suministro de agua y el alumbrado de las ciudades es competencia de…", "options": ["el ayuntamiento.", "el Gobierno autonómico.", "el Ministerio de Obras Públicas y Urbanismo."], "correct": 0}, {"id": 1102, "q": "En materias como nacionalidad, inmigración, emigración o extranjería solo tiene competencia…", "options": ["el Estado.", "las comunidades autónomas.", "los ayuntamientos."], "correct": 0}, {"id": 1103, "q": "¿Cuántas mujeres han sido presidentas de Gobierno en España?", "options": ["Ninguna.", "Una.", "Dos."], "correct": 0}, {"id": 1104, "q": "Las relaciones internacionales son competencia de…", "options": ["el Estado.", "las comunidades autónomas.", "los ayuntamientos."], "correct": 0}, {"id": 1105, "q": "El Ayuntamiento está formado por el alcalde y…", "options": ["los concejales.", "los diputados.", "los senadores."], "correct": 0}, {"id": 1106, "q": "¿Quiénes forman el gobierno de las comunidades autónomas?", "options": ["El presidente y los ministros.", "El alcalde y los concejales.", "El presidente y los consejeros."], "correct": 2}, {"id": 1107, "q": "¿Cuál es el órgano de gobierno en los municipios?", "options": ["El ayuntamiento.", "La diputación.", "El cabildo."], "correct": 0}, {"id": 1108, "q": "¿Cómo se llaman los órganos de gobierno de las provincias españolas?", "options": ["Cabildos.", "Consejos insulares.", "Diputaciones."], "correct": 2}, {"id": 1109, "q": "¿Cuál es el órgano superior del poder ejecutivo?", "options": ["El Gobierno.", "Las Fuerzas Armadas.", "Las Cortes Generales."], "correct": 0}, {"id": 1110, "q": "El idioma español también se llama…", "options": ["aragonés.", "castellano.", "leonés."], "correct": 1}, {"id": 1111, "q": "¿A quiénes se elige en las elecciones al Parlamento Europeo?", "options": ["A los ministros europeos.", "A los consejeros delegados.", "A los eurodiputados."], "correct": 2}, {"id": 1112, "q": "Los españoles pueden votar a partir de los…", "options": ["16 años.", "18 años.", "21 años."], "correct": 1}, {"id": 1113, "q": "Algunos ciudadanos extranjeros pueden votar en las elecciones…", "options": ["municipales.", "autonómicas.", "generales."], "correct": 0}, {"id": 1114, "q": "¿Quién controla la gestión financiera del Estado?", "options": ["El Banco de España.", "La Agencia Tributaria.", "El Tribunal de Cuentas."], "correct": 2}, {"id": 1115, "q": "¿A quiénes se elige en las elecciones generales?", "options": ["A los senadores y diputados.", "A los eurodiputados.", "A los concejales."], "correct": 0}, {"id": 1116, "q": "¿Cuántos miembros tiene el Congreso de los Diputados?", "options": ["300.", "350.", "400."], "correct": 1}, {"id": 1117, "q": "Los municipios y provincias forman parte de la Administración…", "options": ["autonómica.", "local.", "central."], "correct": 1}, {"id": 1118, "q": "La comunidad autónoma más poblada de España es…", "options": ["Andalucía.", "Cataluña.", "Castilla y León."], "correct": 1}, {"id": 1119, "q": "¿Cómo se llama la organización que defiende los intereses de los trabajadores?", "options": ["Asociación.", "Partido.", "Sindicato."], "correct": 2}, {"id": 1120, "q": "¿Quién elige al presidente del Gobierno?", "options": ["El Congreso de los Diputados.", "El rey.", "El Tribunal Supremo."], "correct": 0}]}, "t2": {"title": "Derechos y deberes fundamentales", "questions": [{"id": 2001, "q": "En España, la Constitución obliga a todos los ciudadanos a practicar una religión.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2002, "q": "Los españoles que obtienen la nacionalidad por residencia deben esperar tres años para poder votar en las elecciones.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2003, "q": "En España, la Constitución prohíbe la tortura y la pena de muerte.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2004, "q": "El funcionamiento de los partidos políticos tiene que ser democrático.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2005, "q": "Se puede obligar a alguien a decir cuáles son sus ideas políticas o religiosas.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2006, "q": "Se puede limitar a una persona el derecho a entrar y salir libremente de España por motivos ideológicos.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2007, "q": "La Educación Primaria (de 6 a 12 años) es gratuita y obligatoria.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2008, "q": "La Constitución garantiza el derecho de los españoles a una vivienda digna.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2009, "q": "En España la policía puede entrar en cualquier casa sin resolución judicial en cualquier momento.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2010, "q": "Se garantiza el secreto de las comunicaciones de los españoles, salvo resolución judicial.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2011, "q": "La Constitución reconoce el derecho de los ciudadanos a asociarse libremente.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2012, "q": "Los profesores pueden enseñar con libertad, dentro de los límites de la Constitución.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2013, "q": "La Constitución reconoce únicamente los derechos fundamentales de los españoles.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2014, "q": "Los ciudadanos deben colaborar con los jueces si se lo piden.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2015, "q": "La ley limita el acceso de terceras personas a datos de carácter personal.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2016, "q": "La libertad de prensa está limitada por el respeto al honor de las personas.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2017, "q": "En España las causas de separación y divorcio están reguladas por la ley.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2018, "q": "La atención sanitaria gratuita es solo para personas mayores de 65 años.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2019, "q": "En España los hombres y las mujeres tienen los mismos derechos.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2020, "q": "La enseñanza obligatoria consta de dos etapas: Educación Primaria y Educación Secundaria Obligatoria.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2021, "q": "En España hay una religión oficial.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2022, "q": "La atención sanitaria pública es gratuita.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2023, "q": "La enseñanza básica en España es solo para los extranjeros.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2024, "q": "En España está reconocido el derecho de asociación.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2025, "q": "Los sindicatos pueden participar en negociaciones con empresarios y con el Gobierno.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2026, "q": "Los trabajadores tienen derecho a hacer huelga.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2027, "q": "La libertad ideológica está garantizada solo en parte del territorio nacional.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2028, "q": "Todos los ciudadanos tienen acceso al sistema de Seguridad Social público, excepto si están desempleados.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2029, "q": "Todos tienen derecho a disfrutar de un medio ambiente adecuado para el desarrollo de la persona, así como el deber de conservarlo.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2030, "q": "En España, los poderes públicos deben proteger la salud y promover el deporte.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2031, "q": "La enseñanza básica en España es obligatoria y gratuita.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2032, "q": "La ley prohíbe la discriminación por cualquier circunstancia personal o social.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2033, "q": "En España, los ciudadanos pueden desplazarse libremente por todo el territorio nacional.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2034, "q": "Los jueces administran la justicia en España según las indicaciones del Gobierno.", "options": ["Verdadero.", "Falso."], "correct": 1}, {"id": 2035, "q": "Los españoles deben ayudar en los casos de catástrofe o calamidad pública.", "options": ["Verdadero.", "Falso."], "correct": 0}, {"id": 2036, "q": "En España los ciudadanos pueden elegir en qué ciudad quieren vivir.", "options": ["Verdadero.", "Falso."], "correct": 0}]}, "t3": {"title": "Organización territorial y geografía", "questions": [{"id": 3001, "q": "¿Dónde están Cáceres y Badajoz?", "options": ["En el Principado de Asturias.", "En Andalucía.", "En Extremadura."], "correct": 2}, {"id": 3002, "q": "¿Cuál es la capital la Comunidad Valenciana?", "options": ["Alicante.", "Castellón.", "Valencia."], "correct": 2}, {"id": 3003, "q": "¿Dónde están las islas Baleares?", "options": ["En el mar Cantábrico.", "En el mar Mediterráneo.", "En el océano Atlántico."], "correct": 1}, {"id": 3004, "q": "¿Cómo se llama la extensa llanura situada en el centro de la península ibérica?", "options": ["Marisma.", "Cordillera.", "Meseta."], "correct": 2}, {"id": 3005, "q": "El parque nacional de Ordesa está en...", "options": ["Aragón.", "Navarra.", "Castilla-La Mancha."], "correct": 0}, {"id": 3006, "q": "¿En qué comunidad autónoma están Guadalajara y Cuenca?", "options": ["En Castilla y León.", "En Castilla-La Mancha.", "En Cantabria."], "correct": 1}, {"id": 3007, "q": "¿Qué comunidad autónoma tiene como capital Santiago de Compostela?", "options": ["Galicia.", "Asturias.", "Cantabria."], "correct": 0}, {"id": 3008, "q": "¿Dónde está Almería?", "options": ["En Andalucía.", "En Canarias.", "En Aragón."], "correct": 0}, {"id": 3009, "q": "La capital de la comunidad autónoma de Galicia es…", "options": ["A Coruña.", "Vigo.", "Santiago de Compostela."], "correct": 2}, {"id": 3010, "q": "¿Cuál de estos ríos desemboca en el mar Mediterráneo?", "options": ["El Tajo.", "El Júcar.", "El Duero."], "correct": 1}, {"id": 3011, "q": "¿Dónde está el monte Aneto?", "options": ["En los Pirineos.", "En el Sistema Central.", "En Sierra Nevada."], "correct": 0}, {"id": 3012, "q": "La ciudad de Vitoria es la sede administrativa de…", "options": ["Navarra.", "País Vasco.", "La Rioja."], "correct": 1}, {"id": 3013, "q": "España se divide en…", "options": ["departamentos y regiones.", "comunidades y ciudades autónomas.", "regiones autónomas y distritos."], "correct": 1}, {"id": 3014, "q": "El parque nacional de Aigüestortes está en...", "options": ["Cataluña.", "Aragón.", "Castilla y León."], "correct": 0}, {"id": 3015, "q": "En el norte de África están Ceuta y…", "options": ["Almería.", "Melilla.", "Cádiz."], "correct": 1}, {"id": 3016, "q": "¿En qué lugar de España hay un clima que se caracteriza por inviernos fríos y veranos muy calurosos?", "options": ["Canarias.", "Comunidad Valenciana.", "Madrid."], "correct": 2}, {"id": 3017, "q": "¿Cuál de estos ríos desemboca en el océano Atlántico?", "options": ["El Guadalquivir.", "El Manzanares.", "El Júcar."], "correct": 0}, {"id": 3018, "q": "¿Cuál de estas provincias forma parte de la Comunidad de Castilla y León?", "options": ["Burgos.", "Huesca.", "Guadalajara."], "correct": 0}, {"id": 3019, "q": "¿En qué comunidad autónoma está la ciudad de Huesca?", "options": ["Castilla-La Mancha.", "Aragón.", "Extremadura."], "correct": 1}, {"id": 3020, "q": "Canarias tiene un clima…", "options": ["mediterráneo.", "oceánico.", "subtropical."], "correct": 2}, {"id": 3021, "q": "El principal río que desemboca en el mar Mediterráneo es el…", "options": ["Ebro.", "Duero.", "Tajo."], "correct": 0}, {"id": 3022, "q": "España está entre los países de Europa más…", "options": ["lluviosos.", "montañosos.", "fríos."], "correct": 1}, {"id": 3023, "q": "¿En qué provincia está el parque nacional de Monfragüe?", "options": ["En Cáceres.", "En Murcia.", "En Ciudad Real."], "correct": 0}, {"id": 3024, "q": "¿Cuál es la capital de la comunidad autónoma de Extremadura?", "options": ["Cáceres.", "Badajoz.", "Mérida."], "correct": 2}]}, "t4": {"title": "Cultura e historia de España", "questions": [{"id": 4001, "q": "Los personajes principales de la novela el Quijote son don Quijote y…", "options": ["Don Juan.", "Sancho Panza.", "Doña Inés."], "correct": 1}, {"id": 4002, "q": "¿Qué científica española es reconocida por sus investigaciones?", "options": ["Almudena Grandes.", "Montserrat Caballé.", "Margarita Salas."], "correct": 2}, {"id": 4003, "q": "¿Quién escribió La casa de Bernarda Alba?", "options": ["Federico García Lorca.", "Miguel de Cervantes.", "Antonio Machado."], "correct": 0}, {"id": 4004, "q": "¿Quién escribió Nada, una novela sobre la posguerra española?", "options": ["Carmen Laforet.", "Ana María Matute.", "María Dueñas."], "correct": 0}, {"id": 4005, "q": "¿Qué músico compuso El amor brujo?", "options": ["Manuel de Falla.", "Isaac Albéniz.", "Joaquín Rodrigo."], "correct": 0}, {"id": 4006, "q": "¿Qué es típico en la Noche de San Juan?", "options": ["Comer uvas.", "Encender hogueras.", "Regalar libros."], "correct": 1}, {"id": 4007, "q": "¿Cuál es el instrumento más característico de la música flamenca?", "options": ["La gaita.", "La guitarra.", "El piano."], "correct": 1}, {"id": 4008, "q": "Isabel Coixet es una…", "options": ["cantante pop.", "bailarina clásica.", "directora de cine."], "correct": 2}, {"id": 4009, "q": "Una de las cantantes españolas más famosas actualmente es...", "options": ["Rosalía.", "Marisol.", "Lola Flores."], "correct": 0}, {"id": 4010, "q": "¿En qué ciudad de España hay una mezquita que es Patrimonio de la Humanidad?", "options": ["Santiago de Compostela.", "Madrid.", "Córdoba."], "correct": 2}, {"id": 4011, "q": "¿En qué ciudad de España se encuentra La Alhambra, que es Patrimonio de la Humanidad?", "options": ["En Sevilla.", "En Córdoba.", "En Granada."], "correct": 2}, {"id": 4012, "q": "¿Cuál es el nombre de la directora española que ha destacado por su mirada crítica y por modernizar el cine nacional?", "options": ["Pilar Miró.", "Sara Baras.", "Penélope Cruz."], "correct": 0}, {"id": 4013, "q": "¿Qué novela de éxito ha escrito Irene Vallejo?", "options": ["El infinito en un junco.", "El tiempo entre costuras.", "El camino."], "correct": 0}, {"id": 4014, "q": "¿Cómo se llama la mayor institución pública dedicada a la investigación en España?", "options": ["Real Academia Española (RAE).", "Consejo Superior de investigaciones Científicas (CSIC).", "La sociedad General de Autores (SGAE)."], "correct": 1}, {"id": 4015, "q": "Paco de Lucía fue un famoso….", "options": ["científico.", "guitarrista.", "pintor."], "correct": 1}, {"id": 4016, "q": "¿Qué celebramos el 24 de diciembre?", "options": ["Carnaval.", "Nochebuena.", "San Juan."], "correct": 1}, {"id": 4017, "q": "Juan Mari Arzak es un famoso....", "options": ["escritor.", "músico.", "cocinero."], "correct": 2}, {"id": 4018, "q": "¿Quién fue Clara Campoamor?", "options": ["Una defensora de los derechos de la mujer.", "Una cantante lírica.", "Una directora de cine."], "correct": 0}, {"id": 4019, "q": "¿Qué canciones típicas se cantan en Navidad?", "options": ["Flamenco.", "Villancicos.", "Jotas."], "correct": 1}, {"id": 4020, "q": "La Liga y la Copa del Rey son competiciones de…", "options": ["natación.", "atletismo.", "fútbol."], "correct": 2}, {"id": 4021, "q": "¿Quién ha recibido el premio Nobel de Literatura?", "options": ["María Zambrano.", "Pablo Picasso.", "Vicente Aleixandre."], "correct": 2}, {"id": 4022, "q": "¿Qué fiesta se celebra en Pamplona el 7 de julio?", "options": ["Los sanfermines.", "Las Fallas.", "La Feria de Abril."], "correct": 0}, {"id": 4023, "q": "Teresa Perales y Daniel Molina son...", "options": ["campeones paraolímpicos.", "músicos famosos.", "artistas de cine."], "correct": 0}, {"id": 4024, "q": "¿Qué toman los españoles la noche del 31 de diciembre para celebrar el cambio de año?", "options": ["Lentejas.", "Uvas.", "Aceitunas."], "correct": 1}, {"id": 4025, "q": "¿Qué mujer es autora del cuadro La verbena?", "options": ["Maruja Mallo.", "Carmen Maura.", "Clara Lago."], "correct": 0}, {"id": 4026, "q": "¿En qué museo español puedes ver el cuadro Guernica de Picasso?", "options": ["Museo del Prado.", "Museo Reina Sofía.", "Museo Thyssen-Bornemisza."], "correct": 1}, {"id": 4027, "q": "¿Qué escritora española escribe en otra lengua oficial de España?", "options": ["Mercè Rodoreda.", "Almudena Grandes.", "Ana María Matute."], "correct": 0}, {"id": 4028, "q": "¿Qué tres culturas convivieron en la España medieval?", "options": ["La cristiana, la judía y la musulmana.", "La fenicia, la judía y la musulmana.", "La griega, la cristiana y la judía."], "correct": 0}, {"id": 4029, "q": "El 6 de diciembre se celebra en España…", "options": ["el Día de la Constitución.", "la llegada de Colón a América.", "el Día del Libro."], "correct": 0}, {"id": 4030, "q": "¿Qué ciudad fue un centro científico en Al-Ándalus, donde se estudiaba medicina y astronomía?", "options": ["Barcelona.", "Madrid.", "Córdoba."], "correct": 2}, {"id": 4031, "q": "¿En qué ciudad española está el Museo Guggenheim?", "options": ["Bilbao.", "Madrid.", "Valencia."], "correct": 0}, {"id": 4032, "q": "El Premio Cervantes se da a…", "options": ["actores.", "escritores.", "pintores."], "correct": 1}, {"id": 4033, "q": "¿Qué premio reconoce a los mejores actores y películas?", "options": ["Premio Goya.", "Premio Nobel.", "Premio Cervantes."], "correct": 0}, {"id": 4034, "q": "¿Qué premios promueven en España valores científicos, culturales y humanísticos?", "options": ["Los Premios Cervantes.", "Los Premios Princesa de Asturias.", "Los Premios Goya."], "correct": 1}, {"id": 4035, "q": "¿Cuál de estos deportes es muy popular en España?", "options": ["El fútbol.", "El esquí.", "El golf."], "correct": 0}, {"id": 4036, "q": "¿Cuál de estos deportistas juega al tenis?", "options": ["Pau Gasol.", "Carlos Sainz.", "Carlos Alcaraz."], "correct": 2}]}, "t5": {"title": "Sociedad española", "questions": [{"id": 5001, "q": "¿Qué documento deben solicitar los extranjeros para residir legalmente en España?", "options": ["El Documento Nacional de Identidad (DNI).", "La Tarjeta de Identidad de Extranjero (TIE).", "El certificado de empadronamiento."], "correct": 1}, {"id": 5002, "q": "¿Cuál es el documento que certifica el lugar de residencia del titular?", "options": ["El certificado de empadronamiento.", "La partida de nacimiento.", "El carné de conducir."], "correct": 0}, {"id": 5003, "q": "¿A qué sustituye el registro electrónico individual?", "options": ["Al DNI.", "Al permiso de conducir.", "Al libro de familia."], "correct": 2}, {"id": 5004, "q": "¿Cuál es la edad mínima para conducir un coche en España?", "options": ["16 años.", "18 años.", "20 años."], "correct": 1}, {"id": 5005, "q": "El carné de conducir se hace en…", "options": ["la Dirección General de Tráfico (DGT).", "la Policía Nacional.", "el Registro Civil."], "correct": 0}, {"id": 5006, "q": "Para sacar el carné de conducir hay que aprobar…", "options": ["un examen teórico.", "un examen práctico.", "un examen teórico y otro práctico."], "correct": 2}, {"id": 5007, "q": "¿Dónde se tramita el libro de familia?", "options": ["En el Registro Civil.", "En la Seguridad Social.", "En las comisarías de policía."], "correct": 0}, {"id": 5008, "q": "¿Cuál de estos canales de televisión es autonómico?", "options": ["Telecinco.", "Nova.", "Canal Sur."], "correct": 2}, {"id": 5009, "q": "¿Cuánto dura el permiso de maternidad o paternidad?", "options": ["12 semanas.", "19 semanas.", "22 semanas."], "correct": 1}, {"id": 5010, "q": "¿Cuál es la tasa máxima de alcohol en sangre permitida a los conductores, en gramos por litro (g/l)?", "options": ["0,5.", "0,7.", "0,9."], "correct": 0}, {"id": 5011, "q": "¿Cuál es el tipo de residencia más habitual en España?", "options": ["Casa rural.", "Piso en un edificio de viviendas.", "Chalé independiente."], "correct": 1}, {"id": 5012, "q": "¿Qué comunidad autónoma es conocida por la calidad de su aceite de oliva?", "options": ["Cantabria.", "Andalucía.", "La Rioja."], "correct": 1}, {"id": 5013, "q": "¿Cómo se llama la revisión que deben pasar obligatoriamente los coches?", "options": ["IBI (Impuesto sobre Bienes Inmuebles).", "ITV (Inspección Técnica de Vehículos).", "ITE (Inspección Técnica de Edificios)."], "correct": 1}, {"id": 5014, "q": "El aperitivo que acompaña a la bebida en bares y restaurantes se llama...", "options": ["bocadillo.", "tapa.", "primer plato."], "correct": 1}, {"id": 5015, "q": "¿Dónde se tramita la tarjeta sanitaria?", "options": ["En la comisaría de policía.", "En el centro de salud.", "En el Ministerio de Sanidad."], "correct": 1}, {"id": 5016, "q": "¿Con cuántos hijos una familia es numerosa?", "options": ["Con 1 hijo.", "Con 2 hijos.", "Con 3 hijos."], "correct": 2}, {"id": 5017, "q": "En España está permitido el matrimonio…", "options": ["solo entre personas del mismo sexo.", "entre personas del mismo y diferente sexo.", "solo entre personas de diferente sexo."], "correct": 1}, {"id": 5018, "q": "Los propietarios de perros deben registrarlos en…", "options": ["el Ministerio de Justicia.", "la comisaría de policía.", "el Ayuntamiento."], "correct": 2}, {"id": 5019, "q": "Los principales ingredientes de la tortilla española son huevos y…", "options": ["pimientos.", "patatas.", "tomates."], "correct": 1}, {"id": 5020, "q": "¿Cuál es uno de los platos más conocidos internacionalmente de la gastronomía española?", "options": ["Gazpacho.", "Pizza.", "Pasta."], "correct": 0}, {"id": 5021, "q": "¿Cuál de estos canales de televisión es público?", "options": ["Tele 5.", "La 1.", "Antena 3."], "correct": 1}, {"id": 5022, "q": "En una comunidad de vecinos, una de las normas es…", "options": ["abrir la puerta al cartero.", "no molestar con ruido.", "limpiar los espacios comunes."], "correct": 1}, {"id": 5023, "q": "¿Cuál de estos es el principal ingrediente de la paella valenciana?", "options": ["Arroz.", "Chorizo.", "Garbanzos."], "correct": 0}, {"id": 5024, "q": "La sidra es una bebida típica de…", "options": ["Asturias.", "Valencia.", "Canarias."], "correct": 0}, {"id": 5025, "q": "Los españoles tienen dos apellidos, el primero es…", "options": ["obligatoriamente el de la madre.", "obligatoriamente el del padre.", "puede ser el de la madre o el del padre."], "correct": 1}, {"id": 5026, "q": "La Fiesta Nacional de España es el…", "options": ["6 de diciembre.", "15 de agosto.", "12 de octubre."], "correct": 2}, {"id": 5027, "q": "¿Qué días suelen cerrar la mayoría de las tiendas o el pequeño comercio?", "options": ["Los lunes.", "Los domingos.", "Los sábados por la tarde."], "correct": 1}, {"id": 5028, "q": "¿Dónde se hace el pasaporte?", "options": ["En el registro civil.", "En una comisaría de policía.", "En el Ayuntamiento."], "correct": 1}, {"id": 5029, "q": "El Ministerio de Igualdad es el encargado de luchar contra la violencia de género y la…", "options": ["separación.", "discriminación.", "solidaridad."], "correct": 1}, {"id": 5030, "q": "¿Qué comunidad autónoma es conocida por la calidad de sus cavas?", "options": ["Galicia.", "Cataluña.", "Castilla-La Mancha."], "correct": 1}, {"id": 5031, "q": "¿Qué documento se necesita para recibir atención médica en la sanidad pública?", "options": ["El pasaporte.", "La tarjeta sanitaria.", "El certificado de nacimiento."], "correct": 1}, {"id": 5032, "q": "El horario de Canarias, con respecto a la Península, es de…", "options": ["dos horas menos.", "una hora menos.", "una hora más."], "correct": 0}, {"id": 5033, "q": "Para acceder a la Universidad se debe superar una prueba de evaluación llamada…", "options": ["Selectividad.", "Examen preuniversitario.", "Prueba de Acceso a la Universidad."], "correct": 0}, {"id": 5034, "q": "¿Cuál de estos productos necesita importar España de otros países?", "options": ["Petróleo.", "Aceite de oliva.", "Medicamentos."], "correct": 0}, {"id": 5035, "q": "¿Qué tipo de impuestos tienen que pagar los ciudadanos en España?", "options": ["Impuestos directos como el IRPF.", "Impuestos indirectos como el IVA.", "Impuestos directos e indirectos."], "correct": 2}, {"id": 5036, "q": "Los adultos sin Bachillerato pueden estudiar en la Universidad haciendo una prueba especial a partir de los…", "options": ["18 años.", "23 años.", "25 años."], "correct": 2}, {"id": 5037, "q": "¿Dónde puede encontrarse la siguiente norma «No pisar el césped, ni arrancar flores»?", "options": ["En zonas de recreo.", "En los teatros.", "En los estadios de fútbol."], "correct": 0}, {"id": 5038, "q": "El Bachillerato en España…", "options": ["es obligatorio.", "se compone de dos cursos académicos.", "es la enseñanza a alumnos de 14 a 16 años."], "correct": 1}, {"id": 5039, "q": "El Impuesto sobre el Valor Añadido (IVA) forma parte de los…", "options": ["Impuestos indirectos.", "Impuestos sobre la renta.", "Impuestos sobre sociedades."], "correct": 0}, {"id": 5040, "q": "¿Qué número reciben los trabajadores al comenzar su primer empleo?", "options": ["El de la Seguridad Social.", "El del pasaporte.", "El número de servicio."], "correct": 0}, {"id": 5041, "q": "Los colegios públicos…", "options": ["pueden decidir su número de plazas.", "pueden contratar a los profesores que quieran.", "son gratuitos."], "correct": 2}, {"id": 5042, "q": "¿Cuál de estos puertos es uno de los principales de España?", "options": ["Tenerife.", "Alicante.", "Algeciras."], "correct": 2}, {"id": 5043, "q": "Un colegio concertado es un colegio privado que…", "options": ["recibe dinero de la Administración.", "financian los padres de los alumnos.", "recibe dinero de los bancos."], "correct": 0}, {"id": 5044, "q": "España exporta productos principalmente a países…", "options": ["de Hispanoamérica.", "de la Unión Europea.", "del norte de África."], "correct": 1}, {"id": 5045, "q": "Las bibliotecas públicas son gratuitas para…", "options": ["todos.", "los parados.", "los niños."], "correct": 0}, {"id": 5046, "q": "¿Cuál de estos productos exporta España más que importa?", "options": ["Gas.", "Ropa.", "Calzado."], "correct": 2}, {"id": 5047, "q": "Una persona mayor de 18 años puede obtener el título de Graduado en Educación Secundaria Obligatoria en…", "options": ["un Centro de Educación de Personas Adultas.", "un centro de enseñanza primaria.", "una universidad."], "correct": 0}, {"id": 5048, "q": "La formación profesional…", "options": ["es para mayores de 25 años.", "puede ser de grado medio o superior.", "es obligatoria."], "correct": 1}, {"id": 5049, "q": "¿Adónde vamos para ver al médico de familia o al pediatra?", "options": ["Al hospital.", "Al centro de salud.", "A la farmacia."], "correct": 1}, {"id": 5050, "q": "¿Para cuántos años vale la tarjeta sanitaria europea?", "options": ["Para un año.", "Para dos años.", "Para 10 años."], "correct": 1}, {"id": 5051, "q": "¿A qué hora se cena normalmente en España?", "options": ["A las 18 h.", "A las 23 h.", "A las 21 o 22 h."], "correct": 2}, {"id": 5052, "q": "¿Cuál es el número de teléfono único para cualquier emergencia?", "options": ["060.", "112.", "911."], "correct": 1}, {"id": 5053, "q": "¿Cuál de estos periódicos se publica a nivel nacional?", "options": ["El Diario Vasco.", "El País.", "La Voz de Galicia."], "correct": 1}, {"id": 5054, "q": "¿Dónde se venden sellos y tabaco?", "options": ["En el quiosco.", "En la farmacia.", "En el estanco."], "correct": 2}, {"id": 5055, "q": "¿Cuándo se puede llamar al número de teléfono para atención a víctimas de violencia de género?", "options": ["Las 24 horas del día.", "En horario de mañana.", "De lunes a viernes."], "correct": 0}, {"id": 5056, "q": "La organización que trabaja para conseguir la integración de las personas con discapacidad visual es…", "options": ["la ONCE.", "Unicef.", "Cáritas."], "correct": 0}, {"id": 5057, "q": "El Camino de Santiago es…", "options": ["Patrimonio de la Humanidad.", "una vía de ferrocarril.", "una ruta para excursionistas."], "correct": 0}, {"id": 5058, "q": "¿Cuál es el canal de televisión estatal que transmite noticias de actualidad nacional e internacional continuamente?", "options": ["Teledeporte.", "La 1.", "Canal 24 horas."], "correct": 2}, {"id": 5059, "q": "El teléfono gratuito para las víctimas de violencia de género es el…", "options": ["091.", "112.", "016."], "correct": 2}, {"id": 5060, "q": "En España, la red de trenes puede ser de larga distancia, de media distancia y…", "options": ["de cercanías.", "rural.", "transnacional."], "correct": 0}, {"id": 5061, "q": "¿Qué está prohibido en la puerta de un colegio?", "options": ["Fumar un cigarrillo.", "Conducir un coche.", "Vender refrescos."], "correct": 0}, {"id": 5062, "q": "¿Qué título se obtiene al finalizar un ciclo de grado medio de Formación Profesional?", "options": ["Bachiller.", "Técnico.", "Graduado en ESO."], "correct": 1}, {"id": 5063, "q": "¿Qué título se obtiene tras realizar una tesis doctoral en España?", "options": ["Máster.", "Graduado.", "Doctor."], "correct": 2}, {"id": 5064, "q": "¿Dónde se compran las medicinas con receta?", "options": ["En el hospital.", "En el centro de salud.", "En la farmacia."], "correct": 2}, {"id": 5065, "q": "¿Cuál de estas tres recomendaciones podemos encontrar en un parque?", "options": ["No pisar el césped.", "Se recomienda pagar el billete con el dinero justo.", "Respetar las normas sobre equipaje."], "correct": 0}, {"id": 5066, "q": "¿Cuál de las siguientes cosas es obligatoria para el propietario de un coche en España?", "options": ["El garaje.", "El seguro.", "La alarma."], "correct": 1}, {"id": 5067, "q": "El aeropuerto Adolfo Suárez está en…", "options": ["Barcelona.", "Madrid.", "Bilbao."], "correct": 1}, {"id": 5068, "q": "En un coche es obligatorio el uso del cinturón de seguridad...", "options": ["solo en el asiento del conductor.", "en los asientos delanteros.", "en todos los asientos."], "correct": 2}, {"id": 5069, "q": "¿Cuál es el límite de velocidad en autopista?", "options": ["90 km/h.", "120 km/h.", "150 km/h."], "correct": 1}, {"id": 5070, "q": "Ceder el asiento a las personas con movilidad reducida es una norma que encontramos indicada en…", "options": ["el transporte público.", "las bibliotecas.", "los museos."], "correct": 0}, {"id": 5071, "q": "¿Cuál es el medio de transporte público que tiene una luz verde encendida si está libre?", "options": ["El autobús.", "El taxi.", "El tranvía."], "correct": 1}, {"id": 5072, "q": "¿Qué debes hacer si tienes un perro?", "options": ["Pasearlo sin correa.", "Ponerle un microchip y vacunarlo.", "No recoger sus excrementos."], "correct": 1}, {"id": 5073, "q": "Los españoles necesitan el pasaporte para viajar a…", "options": ["Italia.", "China.", "Alemania."], "correct": 1}, {"id": 5074, "q": "¿Cuál es la edad mínima para trabajar en España?", "options": ["16 años.", "18 años.", "21 años."], "correct": 0}, {"id": 5075, "q": "¿Cuál es el sector de mayor peso en la economía española?", "options": ["Agricultura.", "Servicios.", "Construcción."], "correct": 1}, {"id": 5076, "q": "España es innovadora en el sector de…", "options": ["la ingeniería aeroespacial.", "las energías renovables.", "la energía nuclear."], "correct": 1}, {"id": 5077, "q": "¿Cómo se llama la ley laboral más importante de España?", "options": ["La Constitución.", "El Estatuto de los Trabajadores.", "El Servicio Público de Empleo Estatal."], "correct": 1}, {"id": 5078, "q": "¿Cuál de estos establecimientos está abierto 24 horas si es necesario?", "options": ["Farmacia.", "Pescadería.", "Librería."], "correct": 0}, {"id": 5079, "q": "La educación infantil en España…", "options": ["es obligatoria.", "tiene dos ciclos.", "empieza a los 4 años."], "correct": 1}, {"id": 5080, "q": "¿Cuándo empieza el calendario escolar?", "options": ["En agosto.", "En septiembre.", "En octubre."], "correct": 1}, {"id": 5081, "q": "Las Escuelas Oficiales de Idiomas…", "options": ["son centros de enseñanza privada.", "son para mayores de 16 años.", "dependen del Instituto Cervantes."], "correct": 2}, {"id": 5082, "q": "¿Cuál es el documento que recoge los años de cotización a la Seguridad Social?", "options": ["Informe de vida laboral.", "Recibo de finiquito.", "Certificado de profesionalidad."], "correct": 0}, {"id": 5083, "q": "Los convenios colectivos de una empresa son los que se firman con los representantes de los trabajadores sobre…", "options": ["las condiciones laborales.", "el futuro de la empresa.", "la relación con los clientes."], "correct": 0}, {"id": 5084, "q": "¿En cuál de estos sectores destaca España?", "options": ["En el turismo.", "En la industria automovilística.", "En tecnología digital."], "correct": 0}]}}
+;
+
+const TOPIC_META = {
+  t1:{n:1, label:"10 preguntas oficiales en el examen"},
+  t2:{n:2, label:"3 preguntas oficiales en el examen"},
+  t3:{n:3, label:"2 preguntas oficiales en el examen"},
+  t4:{n:4, label:"3 preguntas oficiales en el examen"},
+  t5:{n:5, label:"7 preguntas oficiales en el examen"},
+};
+const EXAM_DISTRIBUTION = {t1:10, t2:3, t3:2, t4:3, t5:7};
+const EXAM_SECONDS = 45*60;
+
+/* ================== STATE ================== */
+let state = {
+  mode:null,        // 'topic' | 'exam'
+  topicKey:null,
+  questions:[],      // array of {id,q,options,correct,task}
+  current:0,
+  answers:[],        // selected index or null
+  timerId:null,
+  secondsLeft:EXAM_SECONDS,
+};
+
+/* ================== HOME ================== */
+function buildHome(){
+  const wrap = document.getElementById('topic-cards');
+  wrap.innerHTML = '';
+  Object.keys(TOPIC_META).forEach(key=>{
+    const t = DATA[key];
+    const meta = TOPIC_META[key];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = ()=> startTopic(key);
+    card.innerHTML = `
+      <span class="count">${t.questions.length} preguntas</span>
+      <span class="num">0${meta.n}</span>
+      <h3>${t.title}</h3>
+      <p>${meta.label}</p>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function goHome(){
+  stopTimer();
+  showView('view-home');
+}
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ================== HELPERS ================== */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function taskLabel(key){
+  const n = TOPIC_META[key].n;
+  return 'Tarea ' + n;
+}
+
+/* ================== START TOPIC PRACTICE ================== */
+function startTopic(key){
+  const src = DATA[key].questions;
+  const qs = shuffle(src).map(q=>({...q, task:key}));
+  state = {mode:'topic', topicKey:key, questions:qs, current:0, answers:new Array(qs.length).fill(null), timerId:null};
+  document.getElementById('quiz-title').textContent = DATA[key].title;
+  document.getElementById('timer-pill').style.display = 'none';
+  showView('view-quiz');
+  renderQuestion();
+}
+
+/* ================== START EXAM ================== */
+function startExam(){
+  let qs = [];
+  Object.keys(EXAM_DISTRIBUTION).forEach(key=>{
+    const need = EXAM_DISTRIBUTION[key];
+    const pool = shuffle(DATA[key].questions);
+    pool.slice(0, need).forEach(q=> qs.push({...q, task:key}));
+  });
+  qs = shuffle(qs);
+  state = {mode:'exam', topicKey:null, questions:qs, current:0, answers:new Array(qs.length).fill(null), timerId:null, secondsLeft:EXAM_SECONDS};
+  document.getElementById('quiz-title').textContent = 'Examen aleatorio CCSE';
+  document.getElementById('timer-pill').style.display = 'inline-block';
+  showView('view-quiz');
+  renderQuestion();
+  startTimer();
+}
+
+function retrySame(){
+  if(state.mode==='exam'){ startExam(); } else { startTopic(state.topicKey); }
+}
+
+/* ================== TIMER ================== */
+function startTimer(){
+  updateTimerDisplay();
+  state.timerId = setInterval(()=>{
+    state.secondsLeft--;
+    updateTimerDisplay();
+    if(state.secondsLeft<=0){
+      stopTimer();
+      finishQuiz(true);
+    }
+  },1000);
+}
+function stopTimer(){
+  if(state.timerId){ clearInterval(state.timerId); state.timerId=null; }
+}
+function updateTimerDisplay(){
+  const el = document.getElementById('timer-pill');
+  const m = Math.floor(state.secondsLeft/60);
+  const s = state.secondsLeft%60;
+  el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  el.classList.toggle('low', state.secondsLeft <= 60);
+}
+
+/* ================== RENDER QUESTION ================== */
+function renderQuestion(){
+  const q = state.questions[state.current];
+  document.getElementById('q-tag').textContent = taskLabel(q.task) + ' · ' + DATA[q.task].title;
+  document.getElementById('q-code').textContent = '#' + q.id;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('progress-pill').textContent = (state.current+1) + ' / ' + state.questions.length;
+  document.getElementById('progress-fill').style.width = ((state.current)/(state.questions.length-1||1)*100) + '%';
+
+  const optWrap = document.getElementById('q-options');
+  optWrap.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userAnswer = state.answers[state.current];
+
+  q.options.forEach((opt, idx)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="letter">${letters[idx]}</span><span>${opt}</span>`;
+    if(userAnswer !== null){
+      btn.classList.add('disabled');
+      if(idx === q.correct) btn.classList.add('correct');
+      if(idx === userAnswer && userAnswer !== q.correct) btn.classList.add('wrong');
+      if(idx === userAnswer && userAnswer === q.correct) btn.classList.add('selected');
+    } else {
+      btn.onclick = ()=> selectAnswer(idx);
+    }
+    optWrap.appendChild(btn);
+  });
+
+  document.getElementById('btn-prev').disabled = state.current===0;
+  const isLast = state.current === state.questions.length-1;
+  document.getElementById('btn-next').disabled = userAnswer===null;
+  document.getElementById('btn-next').textContent = isLast ? 'Ver resultado →' : 'Siguiente →';
+
+  renderDots();
+}
+
+function selectAnswer(idx){
+  if(state.answers[state.current] !== null) return;
+  state.answers[state.current] = idx;
+  renderQuestion();
+}
+
+function renderDots(){
+  const wrap = document.getElementById('dots');
+  wrap.innerHTML = '';
+  state.questions.forEach((q, i)=>{
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    const ans = state.answers[i];
+    if(i === state.current) dot.classList.add('current');
+    else if(ans !== null) dot.classList.add(ans === q.correct ? 'answered-correct' : 'answered-wrong');
+    dot.onclick = ()=>{ state.current = i; renderQuestion(); };
+    wrap.appendChild(dot);
+  });
+}
+
+function nextQ(){
+  if(state.current === state.questions.length-1){
+    finishQuiz(false);
+    return;
+  }
+  state.current++;
+  renderQuestion();
+}
+function prevQ(){
+  if(state.current===0) return;
+  state.current--;
+  renderQuestion();
+}
+
+/* ================== RESULTS ================== */
+function finishQuiz(timedOut){
+  stopTimer();
+  let correct = 0, wrong = 0, unanswered = 0;
+  state.questions.forEach((q,i)=>{
+    const a = state.answers[i];
+    if(a===null) unanswered++;
+    else if(a===q.correct) correct++;
+    else wrong++;
+  });
+  const total = state.questions.length;
+  const pct = Math.round((correct/total)*100);
+
+  document.getElementById('res-title').textContent = timedOut ? '⏰ Tiempo agotado' : '¡Test completado!';
+  let verdict;
+  if(state.mode==='exam'){
+    verdict = pct>=60 ? 'Resultado aprobatorio según el criterio orientativo del CCSE (≥60%).' : 'Por debajo del umbral orientativo de aprobado (60%). ¡Sigue practicando!';
+  } else {
+    verdict = pct===100 ? '¡Perfecto! Dominas este apartado.' : (pct>=70 ? 'Buen resultado, repasa los fallos.' : 'Conviene repasar este tema con más calma.');
+  }
+  document.getElementById('res-verdict').textContent = verdict + (unanswered>0 ? ` (${unanswered} sin responder)` : '');
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong + unanswered;
+  document.getElementById('res-pct').textContent = pct + '%';
+
+  // review list
+  const rl = document.getElementById('review-list');
+  rl.classList.remove('open');
+  rl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  state.questions.forEach((q,i)=>{
+    const a = state.answers[i];
+    const isWrong = a===null || a!==q.correct;
+    const item = document.createElement('div');
+    item.className = 'review-item' + (isWrong ? ' wrong' : '');
+    item.innerHTML = `
+      <div class="rq">#${q.id} · ${q.q}</div>
+      <div class="ra">
+        Correcta: <b>${letters[q.correct]}. ${q.options[q.correct]}</b>
+        ${ (a!==null && a!==q.correct) ? `&nbsp;&nbsp;|&nbsp;&nbsp;Tu respuesta: <span class="badwrong">${letters[a]}. ${q.options[a]}</span>` : (a===null ? '&nbsp;&nbsp;|&nbsp;&nbsp;<i>Sin responder</i>' : '') }
+      </div>
+    `;
+    rl.appendChild(item);
+  });
+
+  document.getElementById('res-retry-btn').textContent = (state.mode==='exam') ? 'Nuevo examen aleatorio' : 'Repetir este tema';
+  showView('view-results');
+}
+
+function toggleReview(){
+  document.getElementById('review-list').classList.toggle('open');
+}
+
+/* ================== INIT ================== */
+buildHome();
+</script>
+</body>
+</html>
